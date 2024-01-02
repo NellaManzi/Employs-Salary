@@ -12,8 +12,11 @@ x-data="{
 info:[
 { names:'Twanst',ages:'21',genders:'Male',salarys:2000,worktypes:'FullStack' },
 
-]
-
+],
+deleteEmployee(infos) {
+    // Delete employee logic
+    this.info.splice(infos, 1);
+},
 }">
 <!-- Alpine Variable -->
 <head>
@@ -121,7 +124,7 @@ info:[
                   <p class="card-text" x-text="'Gender: '+infos.genders"></p>
                   <p class="card-text" x-text="'Salary: '+infos.salarys+' $'"></p>
                   <p class="card-text" x-text="'Work Type: '+infos.worktypes"></p>
-                  <button x-on:click="info.splice(infos.names,1)" class="btn btn-danger btn-sm">Delete</button>
+                  <button  @click="deleteEmployee(infos)" class="btn btn-danger btn-sm">Delete</button>
                 </div>
               </div>
              </div> 
