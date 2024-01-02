@@ -2,13 +2,17 @@
 <!-- Alpine Variable -->
 <html lang="en"
 x-data="{
+
+    name:'',
+    age:'',
+    gender:'',
+    Salary:'',
+    wtype:'',
+
 info:[
-{ names:'Twanst',ages:'21',genders:'Male',salarys:2000,worktypes:'FullStack' }
-]
+{ names:'Twanst',ages:'21',genders:'Male',salarys:2000,worktypes:'FullStack' },
 
-
-
-
+],
 
 }">
 <!-- Alpine Variable -->
@@ -61,10 +65,10 @@ info:[
 
 <div class="row">
 <div class="col-12 col-lg-4 col-xl-4">
-   <input type="text" class="form-control form-control-sm" placeholder="Name">
+   <input type="text" class="form-control form-control-sm"  x-model="name" placeholder="Name">
 </div>
 <div class="col-12 col-lg-4 col-xl-4">
-   <input type="text" class="form-control form-control-sm" placeholder="Age">
+   <input type="text" class="form-control form-control-sm" x-model="age" placeholder="Age">
 </div>
 <div class="col-12 col-lg-4 col-xl-4">
    <select x-model="gender" class="form-control form-control-sm">
@@ -76,11 +80,11 @@ info:[
 </div>
 
 <div class="col-12 col-lg-4 col-xl-4 mt-2">
-<input type="number" class="form-control form-control-sm" placeholder="Salary">
+<input type="number" class="form-control form-control-sm" x-model="salary" placeholder="Salary">
 </div>
 
 <div class="col-12 col-lg-4 col-xl-4 mt-2">
-    <select x-model="type" class="form-control form-control-sm">
+    <select x-model="wtype" class="form-control form-control-sm">
         <optgroup label="Work Type">
 
      <option value="Frontend" >Frontend</option>
@@ -94,30 +98,36 @@ info:[
     </select>
  </div>
 <div class="col-12 col-lg-4 col-xl-4 mt-2">
-    <button class="btn btn-success w-100 btn-sm">ADD</button>
+    <button class="btn btn-success w-100 btn-sm" @click="info.push({names:name,ages:age,genders:gender,salarys:salary,worktypes:wtype})">ADD</button>
  </div>
 </div>
 
-<template x-for="infos in info">
+<!-- 
+    { names:'Twanst',ages:'21',genders:'Male',salarys:2000,worktypes:'FullStack' },
+        name:'',
+    age:'',
+    gender:'',
+    Salary:'',
+    wtype:'',
+ -->
 
-    <div class="row mt-4 ">
-        <div class="col-12 col-lg-4 col-xl-4 rounded">
-            <div class="card" style="width: 18rem;">
+
+ <div class="row mt-4 ">
+<template x-for="infos in info">
+            <div class="card m-2" style="width: 18rem;">
                 <div class="card-body">
                   <h5 class="card-title" x-text="'Name: '+infos.names"></h5>
                   <h6 class="card-subtitle mb-2 text-body-secondary" x-text="'Age: '+infos.ages+' Years'"></h6>
                   <p class="card-text" x-text="'Gender: '+infos.genders"></p>
                   <p class="card-text" x-text="'Salary: '+infos.salarys+' $'"></p>
                   <p class="card-text" x-text="'Work Type: '+infos.worktypes"></p>
+                  <button x-on:click="deleteEmployee(index)" class="btn btn-danger btn-sm">Delete</button>
                 </div>
               </div>
-        </div>
-    </div>
-
+             </div> 
+           </div>
 </template>
-
-
-
+</div>
 
 
 
@@ -133,5 +143,58 @@ info:[
 </body>
 </html>
 
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        Alpine.data('filterable', () => ({
+            info: [
+                { names: 'Twanst', ages: '21', genders: 'Male', salarys: 2000, worktypes: 'FullStack' },
+                // ... (other employee data)
+            ],
+            filter: {
+                name: '',
+                age: '',
+                gender: '',
+                salary: '',
+                type: ''
+            },
+            newEmployee: {
+                name: '',
+                age: '',
+                gender: '',
+                salary: '',
+                type: ''
+            },
+            addEmployee() {
+                // Add employee logic
+                this.info.push({
+                    names: this.newEmployee.name,
+                    ages: this.newEmployee.age,
+                    genders: this.newEmployee.gender,
+                    salarys: this.newEmployee.salary,
+                    worktypes: this.newEmployee.type
+                });
+                this.clearNewEmployee();
+            },
+            deleteEmployee(index) {
+                // Delete employee logic
+                this.info.splice(index, 1);
+            },
+            get filteredInfo() {
+                // Implement logic to filter the info based on the filter values
+                // Return the filtered list
+            },
+            clearNewEmployee() {
+                // Clear the newEmployee object
+                this.newEmployee = {
+                    name: '',
+                    age: '',
+                    gender: '',
+                    salary: '',
+                    type: ''
+                };
+            }
+        }));
+    });
+</script>
 <!-- Bootstrap JS  -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
