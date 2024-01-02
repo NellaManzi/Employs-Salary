@@ -3,7 +3,7 @@
 <html lang="en"
 x-data="{
 info:[
-{ names:'Twanst',ages:'21',genders:'Male',salarys:21,worktypes:'FullStack' }
+{ names:'Twanst',ages:'21',genders:'Male',salarys:2000,worktypes:'FullStack' }
 ]
 
 
@@ -96,10 +96,25 @@ info:[
 <div class="col-12 col-lg-4 col-xl-4 mt-2">
     <button class="btn btn-success w-100 btn-sm">ADD</button>
  </div>
-
-
-
 </div>
+
+<template x-for="infos in info">
+
+    <div class="row mt-4 ">
+        <div class="col-12 col-lg-4 col-xl-4 rounded">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                  <h5 class="card-title" x-text="'Name: '+infos.names"></h5>
+                  <h6 class="card-subtitle mb-2 text-body-secondary" x-text="'Age: '+infos.ages+' Years'"></h6>
+                  <p class="card-text" x-text="'Gender: '+infos.genders"></p>
+                  <p class="card-text" x-text="'Salary: '+infos.salarys+' $'"></p>
+                  <p class="card-text" x-text="'Work Type: '+infos.worktypes"></p>
+                </div>
+              </div>
+        </div>
+    </div>
+
+</template>
 
 
 
