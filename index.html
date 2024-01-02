@@ -12,7 +12,7 @@ x-data="{
 info:[
 { names:'Twanst',ages:'21',genders:'Male',salarys:2000,worktypes:'FullStack' },
 
-],
+]
 
 }">
 <!-- Alpine Variable -->
@@ -121,7 +121,7 @@ info:[
                   <p class="card-text" x-text="'Gender: '+infos.genders"></p>
                   <p class="card-text" x-text="'Salary: '+infos.salarys+' $'"></p>
                   <p class="card-text" x-text="'Work Type: '+infos.worktypes"></p>
-                  <button x-on:click="deleteEmployee(index)" class="btn btn-danger btn-sm">Delete</button>
+                  <button x-on:click="info.splice(infos.names,1)" class="btn btn-danger btn-sm">Delete</button>
                 </div>
               </div>
              </div> 
@@ -143,58 +143,5 @@ info:[
 </body>
 </html>
 
-<script>
-    window.addEventListener('DOMContentLoaded', (event) => {
-        Alpine.data('filterable', () => ({
-            info: [
-                { names: 'Twanst', ages: '21', genders: 'Male', salarys: 2000, worktypes: 'FullStack' },
-                // ... (other employee data)
-            ],
-            filter: {
-                name: '',
-                age: '',
-                gender: '',
-                salary: '',
-                type: ''
-            },
-            newEmployee: {
-                name: '',
-                age: '',
-                gender: '',
-                salary: '',
-                type: ''
-            },
-            addEmployee() {
-                // Add employee logic
-                this.info.push({
-                    names: this.newEmployee.name,
-                    ages: this.newEmployee.age,
-                    genders: this.newEmployee.gender,
-                    salarys: this.newEmployee.salary,
-                    worktypes: this.newEmployee.type
-                });
-                this.clearNewEmployee();
-            },
-            deleteEmployee(index) {
-                // Delete employee logic
-                this.info.splice(index, 1);
-            },
-            get filteredInfo() {
-                // Implement logic to filter the info based on the filter values
-                // Return the filtered list
-            },
-            clearNewEmployee() {
-                // Clear the newEmployee object
-                this.newEmployee = {
-                    name: '',
-                    age: '',
-                    gender: '',
-                    salary: '',
-                    type: ''
-                };
-            }
-        }));
-    });
-</script>
 <!-- Bootstrap JS  -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
