@@ -8,7 +8,7 @@ x-data="{
     gender:'',
     Salary:'',
     wtype:'',
-
+    darkMode: false,
 info:[
 { names:'Twanst',ages:'21',genders:'Male',salarys:2000,worktypes:'FullStack' },
 
@@ -36,9 +36,11 @@ deleteEmployee(infos) {
           box-shadow: 1px 8px 8px 1px rgba(0, 140, 255, 0.2); /* Change the color by modifying the rgba values */
         }
       </style>
+      <link rel="stylesheet" href="./style.css">
     <!-- default style Coustumize -->
 </head>
-<body>
+<body :class="{ 'dark': darkMode }">
+  
     <div class="container">
         <!-- navBar -->
         <nav class="navbar navbar-expand-lg bg-body-tertiary rounded-3 mt-2 custom-shadow ">
@@ -61,6 +63,11 @@ deleteEmployee(infos) {
                 </ul>
               </div>
             </div>
+            <div class="d-flex">
+            
+        <button class="border-0 btn" @click="darkMode = !darkMode"><img src="./image/moon.png" width="50"></button>
+            </div>
+          
           </nav>
         <!-- navBar -->
 <h3 class="text-center display-5 mt-3 mb-3">Employ List Salary </h3>
