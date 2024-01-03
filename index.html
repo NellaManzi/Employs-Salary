@@ -1,147 +1,84 @@
 <!DOCTYPE html>
-<!-- Alpine Variable -->
-<html lang="en"
-x-data="{
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet" />
+		<script src="https://unpkg.com/alpinejs@3.10.5/dist/cdn.min.js" defer></script>
+	</head>
 
-    name:'',
-    age:'',
-    gender:'',
-    Salary:'',
-    wtype:'',
-    darkMode: false,
-info:[
-{ names:'Twanst',ages:'21',genders:'Male',salarys:2000,worktypes:'FullStack' },
+	<body class="bg-gray-100 text-gray-900 px-4 py-8">
+		<div class="container mx-auto" x-data="getUsers()">
+			<input
+				x-ref="searchInput"
+				x-model="search"
+				x-on:keydown.window.prevent.slash="$refs.searchInput.focus()"
+				placeholder="Search for a user..."
+				type="search"
+				class="block w-full rounded bg-gray-200 p-4 mb-4"
+			/>
+			<div class="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
+				<template x-for="user in filteredUsers" :key="user.id">
+					<div class="flex items-center shadow p-4">
+						<img class="rounded-full w-12 h-12" :src="user.image" />
+						<div class="ml-4">
+							<p class="text-lg text-gray-900" x-text="user.name"></p>
+							<p class="text-sm font-bold text-gray-600" x-text="user.age"></p>
+						</div>
+					</div>
+				</template>
+			</div>
+		</div>
+		<script>
+			function getUsers() {
+				return {
+					search: '',
+					allData: userData,
+					get filteredUsers() {
+						if (this.search === '') {
+							return this.allData;
+						}
+						return this.allData.filter((user) => {
+							return user.name
+								.replace(/ /g, '')
+								.toLowerCase()
+								.includes(this.search.replace(/ /g, '').toLowerCase());
+						});
+					}
+				};
+			}
 
-],
-deleteEmployee(infos) {
-    // Delete employee logic
-    this.info.splice(infos, 1);
-},
-}">
-<!-- Alpine Variable -->
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employ List Salary</title>
-    <link rel="icon" type="image/x-icon" href="/image/company.png">
-    <!-- bootstrap Style -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-
-    <!-- alpine js  -->
-    <script src="//unpkg.com/alpinejs" defer></script>
-
-    <!-- default style Coustumize -->
-    <style>
-        .custom-shadow{
-          box-shadow: 1px 8px 8px 1px rgba(0, 140, 255, 0.2); /* Change the color by modifying the rgba values */
-        }
-      </style>
-      <link rel="stylesheet" href="./style.css">
-    <!-- default style Coustumize -->
-</head>
-<body :class="{ 'dark': darkMode }">
-  
-    <div class="container">
-        <!-- navBar -->
-        <nav class="navbar navbar-expand-lg bg-body-tertiary rounded-3 mt-2 custom-shadow ">
-            <div class="container-fluid">
-              <a class="navbar-brand" href="index.html"><img src="./image/company.png" width="50px"></a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="index.html">Home</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="d-flex">
-            
-        <button class="border-0 btn" @click="darkMode = !darkMode"><img src="./image/moon.png" width="50"></button>
-            </div>
-          
-          </nav>
-        <!-- navBar -->
-<h3 class="text-center display-5 mt-3 mb-3">Employ List Salary </h3>
-<!-- alpine js  -->
-
-<div class="row">
-<div class="col-12 col-lg-4 col-xl-4">
-   <input type="text" class="form-control form-control-sm"  x-model="name" placeholder="Name">
-</div>
-<div class="col-12 col-lg-4 col-xl-4">
-   <input type="text" class="form-control form-control-sm" x-model="age" placeholder="Age">
-</div>
-<div class="col-12 col-lg-4 col-xl-4">
-   <select x-model="gender" class="form-control form-control-sm">
-    <optgroup label="Gender">
-    <option value="Male" >Male</option>
-    <option value="Female" >Female</option>
-    </optgroup>
-   </select>
-</div>
-
-<div class="col-12 col-lg-4 col-xl-4 mt-2">
-<input type="number" class="form-control form-control-sm" x-model="salary" placeholder="Salary">
-</div>
-
-<div class="col-12 col-lg-4 col-xl-4 mt-2">
-    <select x-model="wtype" class="form-control form-control-sm">
-        <optgroup label="Work Type">
-
-     <option value="Frontend" >Frontend</option>
-     <option value="Backend" >Backend</option>
-     <option value="Ux/Ui" >Ux/Ui</option>
-     <option value="Graphic" >Graphic</option>
-     <option value="fullstack" >fullstack</option>
-     <option value="cybersecurity" >cybersecurity</option>
-    </optgroup>
-     
-    </select>
- </div>
-<div class="col-12 col-lg-4 col-xl-4 mt-2">
-    <button class="btn btn-success w-100 btn-sm" @click="info.push({names:name,ages:age,genders:gender,salarys:salary,worktypes:wtype})">ADD</button>
- </div>
-</div>
-
- <div class="row mt-4 ">
-<template x-for="infos in info">
-            <div class="card m-2" style="width: 18rem;">
-                <div class="card-body">
-                  <h5 class="card-title" x-text="'Name: '+infos.names"></h5>
-                  <h6 class="card-subtitle mb-2 text-body-secondary" x-text="'Age: '+infos.ages+' Years'"></h6>
-                  <p class="card-text" x-text="'Gender: '+infos.genders"></p>
-                  <p class="card-text" x-text="'Salary: '+infos.salarys+' $'"></p>
-                  <p class="card-text" x-text="'Work Type: '+infos.worktypes"></p>
-                  <button  @click="deleteEmployee(infos)" class="btn btn-danger btn-sm">Delete</button>
-                </div>
-              </div>
-             </div> 
-           </div>
-</template>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    </div>
-</body>
+			const userData = [
+				{
+					id: 1,
+					name: 'Joe',
+					age: 20,
+					image: 'https://randomuser.me/api/portraits/men/1.jpg'
+				},
+				{
+					id: 2,
+					name: 'Sally',
+					age: 25,
+					image: 'https://randomuser.me/api/portraits/women/1.jpg'
+				},
+				{
+					id: 3,
+					name: 'Tom',
+					age: 30,
+					image: 'https://randomuser.me/api/portraits/men/2.jpg'
+				},
+				{
+					id: 4,
+					name: 'John',
+					age: 35,
+					image: 'https://randomuser.me/api/portraits/men/3.jpg'
+				},
+				{
+					id: 5,
+					name: 'Samantha',
+					age: 40,
+					image: 'https://randomuser.me/api/portraits/women/2.jpg'
+				}
+			];
+		</script>
+	</body>
 </html>
-
-<!-- Bootstrap JS  -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
